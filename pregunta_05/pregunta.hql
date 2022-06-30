@@ -64,4 +64,4 @@ CREATE TABLE count_value AS SELECT (YEAR(c4)) ano, letter FROM tbl0 LATERAL VIEW
 
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT ano, letterm COUNT(1) cant FROM count_value GROUP BY ano, letter ORDER BY ano, letter ASC;
+SELECT ano, letter, COUNT(1) cant FROM count_value GROUP BY ano, letter ORDER BY ano, letter ASC;
