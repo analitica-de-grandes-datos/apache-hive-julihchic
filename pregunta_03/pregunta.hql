@@ -13,5 +13,20 @@ Escriba el resultado a la carpeta `output` de directorio de trabajo.
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS data;
+DROP TABLE IF EXISTS smallest_value;
+CREATE TABLE data (
+        letter STRING,
+        fecha DATE,
+        value INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+TBLPROPERTIES ('skip.header.line.count'='0');
 
+LOAD DATA LOCAL INPATH 'data.tsv' OVERWRITE INTO TABLE data;
+
+CREATE TABLE smallest_value AS SELECT value FROM data ORDER BY value asc LIMIT 5;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM smallest_value;
 
