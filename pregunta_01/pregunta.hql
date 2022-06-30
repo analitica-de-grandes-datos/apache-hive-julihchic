@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS data;
 DROP TABLE IF EXISTS wordcount;
 CREATE TABLE data (
         letter STRING,
-        date DATE,
+        fecha DATE,
         value INT)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 TBLPROPERTIES ('skip.header.line.count'='0');
