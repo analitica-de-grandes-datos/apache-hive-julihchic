@@ -66,4 +66,4 @@ CREATE TABLE table_value AS c2, key, value FROM tbl0 LATERAL VIEW explode(c6) nu
 
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT c2, sum(value) FROM table_value ORDER BY c2;
+SELECT c2, suma(value) FROM table_value ORDER BY c2;
