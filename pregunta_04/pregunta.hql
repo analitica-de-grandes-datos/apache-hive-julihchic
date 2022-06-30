@@ -45,10 +45,11 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
     >>> Escriba su respuesta a partir de este punto <<<
 */
 DROP TABLE IF EXISTS tbl0;
-CREATE TABLE uniq_value (
+DROP TABLE IF EXISTS uniq_value;
+CREATE TABLE tbl0 (
     c1 INT,
-    c2 INT,
-    c3 STRING,
+    c2 STRING,
+    c3 INT,
     c4 DATE,
     c5 ARRAY<CHAR(1)>, 
     c6 MAP<STRING, INT>
