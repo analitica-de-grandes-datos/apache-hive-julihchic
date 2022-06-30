@@ -24,9 +24,9 @@ TBLPROPERTIES ('skip.header.line.count'='0');
 
 LOAD DATA LOCAL INPATH 'data.tsv' OVERWRITE INTO TABLE data;
 
-CREATE TABLE smallest_value AS SELECT value FROM data ORDER BY value asc LIMIT 5;
+CREATE TABLE smallest_value AS SELECT value FROM data;
 
 INSERT OVERWRITE LOCAL DIRECTORY './output' 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT * FROM smallest_value;
+SELECT * FROM smallest_value ORDER BY value LIMIT 5;
 
