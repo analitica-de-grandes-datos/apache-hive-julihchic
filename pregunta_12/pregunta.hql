@@ -32,4 +32,22 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS t0;
+DROP TABLE IF EXISTS data;
+CREATE TABLE t0 (
+    c1 STRING,
+    c2 ARRAY<CHAR(1)>, 
+    c3 MAP<STRING, INT>
+    )
+    ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+        COLLECTION ITEMS TERMINATED BY ','
+        MAP KEYS TERMINATED BY '#'
+        LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 
+CREATE TABLE data AS SELECT letter, key, value FROM SELECT letter, c3 FROM t0 LATERAL VIEW explode(c2) t0 AS letter) data1
+LATERAL VIEW explode(c3) data1;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT letter, key, COUNT(1) FROM data GROUP BY letter, key;
