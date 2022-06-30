@@ -46,4 +46,24 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS tbl0;
+DROP TABLE IF EXISTS table_value;
+CREATE TABLE tbl0 (
+    c1 INT,
+    c2 STRING,
+    c3 INT,
+    c4 STRING,
+    c5 ARRAY<CHAR(1)>, 
+    c6 MAP<STRING, INT>
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':'
+MAP KEYS TERMINATED BY '#'
+LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INPATH 'data0.csv' INTO TABLE tbl0;
 
+CREATE TABLE table_value AS c2, key, value FROM tbl0 LATERAL VIEW explode(c6) num_list;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT c2, sum(value) FROM table_value ORDER BY c2;
