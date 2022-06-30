@@ -44,3 +44,23 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+DROP TABLE IF EXISTS tbl0;
+CREATE TABLE uniq_value (
+    c1 INT,
+    c2 INT,
+    c3 STRING,
+    c4 DATE,
+    c5 ARRAY<CHAR(1)>, 
+    c6 MAP<STRING, INT>
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':'
+MAP KEYS TERMINATED BY '#'
+LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INPATH 'data0.csv' INTO TABLE tbl0;
+
+CREATE TABLE uniq_value AS SELECT explode (c5) AS lettre FROM tbl0;
+
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM uniq_value GROUP BY letter ORDER BY letter ASC;
